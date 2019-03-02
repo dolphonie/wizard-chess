@@ -16,7 +16,7 @@ class MotorController:
         grbl_out = self.serial_instance.readline()  # Wait for grbl response with carriage return
         print(' : ' + grbl_out.strip())
 
-    def move_magnet(self, x, y, feedrate=100):
+    def move_to(self, x, y, feedrate=100.0):
         """
         Move magnet to x, y location at feedrate
         :param x: loc to move
@@ -31,11 +31,31 @@ class MotorController:
         grbl_out = self.serial_instance.readline()  # Wait for grbl response with carriage return
         print(' : ' + grbl_out.strip())
 
+        # todo get last x and y
+        lastX = 0
+        lastY = 0
+
+        time_to_wait = dist(x, y, lastX, lastY) / feedrate * 60.0 + 0.25
+        time.sleep(time_to_wait)
+
     def __del__(self):
         # Close file and serial port
         self.serial_instance.close()
 
-c = MotorController()
-c.move_magnet(5, 10)
-time.sleep(6)
-c.move_magnet(0, 0)
+    def engage_magnet(self, engaged):
+        # todo make this do something
+        time.sleep(0.25)
+        return
+
+    def kill_piece(self):
+        # todo make this do something
+        time.sleep(0.25)
+        return
+
+    def test(self):
+        self.move_magnet(5, 10)
+        time.sleep(6)
+        self.move_magnet(0, 0)
+
+    def dist(x1, y1, x2, y2):
+        return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
