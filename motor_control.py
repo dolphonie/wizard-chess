@@ -34,3 +34,8 @@ class MotorController:
     def __del__(self):
         # Close file and serial port
         self.serial_instance.close()
+
+c = MotorController()
+c.move_magnet(5, 10)
+time.sleep(6)
+c.move_magnet(0, 0)
